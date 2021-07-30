@@ -9,7 +9,7 @@ public class DbConnect {
     public static void main(String[] args) {
 
         // Connect to DB sql server
-        String connectionUrl = "jdbc:sqlserver://localhost\\MSSQLSERVER:1433; databaseName=BikeStores; user=sa; password=mainSQL!123#R;";
+        String connectionUrl = "jdbc:sqlserver://localhost\\MSSQLSERVER:1433; databaseName=BikeStores; user=sa; password=main;";
 
         try {
             Connection connectionGet = DriverManager.getConnection(connectionUrl);
@@ -37,8 +37,14 @@ public class DbConnect {
             );
 
             // Bulk insert
-            String sqlBulk = "BULK INSERT sales.customers FROM 'D:\\DB_data.csv' WITH (FIRSTROW = 2, FIELDTERMINATOR = ',', ROWTERMINATOR='\n') ";
+//            String sqlBulk = "BULK INSERT sales.customers FROM 'D:\\DB_data.csv' WITH (FIRSTROW = 2, FIELDTERMINATOR = ',', ROWTERMINATOR='\n') ";
 
+            // Perform the BULK INSERT
+            stmt.executeUpdate("BULK INSERT BikeStores.sales.customers" +
+                    " FROM 'D:\\Bulk_Data_sales_stores.csv' " +
+                    " WITH ( FIRSTROW = 0," +
+                    "FIELDTERMINATOR = ',', " +
+                    "ROWTERMINATOR = '\\n' ) ");
 
             // Execute SQL statement
             String SQL = "SELECT * FROM sales.customers WHERE last_name = 'Tihai'";
